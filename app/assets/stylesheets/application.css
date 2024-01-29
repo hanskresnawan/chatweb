@@ -1,0 +1,172 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ .href{
+    color: white;
+    text-decoration: none;
+ }
+ div{
+    color:white;
+ }
+body
+{
+ width: 100vw;
+ background-color: hsl(0, 0, 10);
+}
+.body1
+{
+ width: 100vw;
+ background-color: rgb(10, 10, 10);
+ margin: 0;
+ font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.navbar
+{
+    display: flex;
+    background-color: rgb(50, 50, 50);
+    align-items: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    font-weight: bold;
+    padding: 1rem;  
+}
+.nav-parent
+{
+    display: flex;
+    align-items: center;
+}
+.nav-list
+{
+display: flex;
+justify-content:  space-evenly;
+max-width: 100%;
+list-style: none;
+}
+.nav-list-media
+{
+display: flex;
+justify-content:  space-evenly;
+max-width: 100%;
+list-style: none;
+}
+
+.chatweb-content
+{
+display: flex;
+
+}
+.chatroom
+{
+    flex-direction: column;
+height: 93vh;
+width: 15vw;
+background-color: rgb(30, 30, 30);
+overflow: auto;
+}
+.chatroom-rooms
+{
+    overflow: auto  ;
+    height: 82vh;
+}
+.chatroom-rooms li
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatroom ul
+{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.chatroom li
+{
+  padding: 1rem;
+  border-style: solid;
+  border-color: black;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+}
+.chatroom-delete
+{
+
+}
+.chatcontent
+{
+    
+    flex-direction: column;
+    height: 88vh;
+width: 70vw;
+padding: 1rem;
+
+}
+.chatcontent ul
+{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    bottom: 0;
+}
+.chatcontent li
+{
+ 
+}
+.chatinput
+{
+    position: fixed;
+    bottom: 0;
+    padding: 1rem;
+}
+.chatmessage li
+{
+    display: flex;
+    flex-direction: column;
+}
+.chatmessage1
+{
+    display: flex;
+    flex-direction: column;
+}
+.createchatroom-parent
+{
+    bottom: 0;
+    padding: 0.5rem;
+    display: flex;
+}
+.createchatroom
+{
+    padding: 1rem;
+    display: flex;
+    flex: 1 1;
+}
+#chatinput
+{
+    padding: 1rem;
+}
+.chattext
+{
+    overflow: auto;
+    height: 78vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+}
+#chat-form
+{
+    display: flex;
+}

@@ -1,0 +1,18 @@
+<% if @chatroom.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@chatroom.errors.count, "error") %> prohibited this chatroom from being saved:</h2>
+    <ul>
+      <% @chatroom.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<!-- Your form goes here -->
+<%= form_with(model: @chatroom, url: chatrooms_path, method: :post) do |form| %>
+  <!-- Form fields -->
+  <%= form.text_field 'chatroom[name]', required: true, id: "chatinput", size: "10vw" %> 
+  <!-- Submit button -->
+  <%= form.submit "Create", class: "createchatroom" %>
+<% end %>

@@ -1,0 +1,148 @@
+<div class="chatweb-content">
+    <div class = "chatroom">
+        <div class="chatroom-rooms">
+            <ul>
+                <% Chatroom.all.each do |chatroom| %>
+                <li>
+                    <a style="color: white; text-decoration: none;"><span class="chatroom-name"><%= chatroom.name %></span></a>
+                <%= button_to "Delete", chatroom, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger", remote: true %>
+                </li>
+                <% end %>
+            </ul>
+        </div>
+      
+        <div class="createchatroom-parent">
+            
+            <div class="createchatroom-parent">
+                <%= form_with(model: @chatroom, url: chatrooms_path, method: :post) do |form| %>
+                  <div class="createchatroom-parent" >
+                    <%= form.text_field 'chatroom[name]', required: true, id: "chatinput", size: "10vw" %> 
+                  <%= form.submit "Create", class: "createchatroom" %>
+                  </div>
+                <% end %>
+              </div>
+          
+        </div>
+    </div>
+        <div class = "chatcontent">
+            <div class = "chattext">
+                
+            </div>
+            
+            <div class="chatinput">
+                <form id="chat-form">
+                    <input type="text" placeholder="user" id="chatinput" name="user" required>
+                    <input type="text" placeholder="message..." class="message" id="chatinput" size="100vw" name="text" required>
+                    <button type="submit" class="createchatroom">Send</button>
+                </form>
+            </div>
+            
+        </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+
+<script>
+    var selectedChatroomId=0;
+    var messageslist=[];
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        var target = event.target;
+        event.preventDefault();
+        function findChatroomIdByName(chatroomName) {
+            $.get('/chatrooms/find_chatroom_id', { name: chatroomName }, function(response) {
+                console.log('Chatroom ID:', response.chatroom_id);
+                selectedChatroomId = response.chatroom_id;  
+                fetchChatMessages(selectedChatroomId);
+            });
+        }
+
+        function fetchChatMessages(chatroomId) {
+            $.get('/chat_histories/fetch_messages', { chatroom_id: chatroomId }, function(response) {
+            // Process the fetched chat messages
+            console.log('Fetched Chat Messages:', response.messages);
+            messageslist=response.messages;
+
+            $('.chattext').empty();
+
+            // Iterate through messageslist and generate HTML elements
+            var ul = $('<ul class="chatmessage">');
+            messageslist.forEach(function(message) {
+                var li = $('<li>').text(message.user + ': ' + message.text);
+                ul.append(li);
+            });
+            $('.chattext').append(ul);
+
+        });
+    }
+
+        
+       
+
+      var chatroomNames = document.querySelectorAll('.chatroom-name');
+      var selectedChatroom = document.querySelector('.chatroom-name').textContent.trim();
+      localStorage.setItem('selectedChatroom', selectedChatroom);
+      console.log("Selected chatroom Name:", selectedChatroom);
+      findChatroomIdByName(selectedChatroom);
+     
+
+
+      chatroomNames.forEach(function(chatroomName) {
+      chatroomName.addEventListener('click', function() {
+        var clickedChatroomName = this.textContent.trim();
+        updateChatroomVariable(clickedChatroomName);
+      });
+    });
+
+    function updateChatroomVariable(chatroomName) {
+      localStorage.setItem('selectedChatroom', chatroomName);
+      console.log("Selected Chatroom:", chatroomName);
+      findChatroomIdByName(chatroomName )
+    }
+    
+    $('#chat-form').submit(function(event) {
+      event.preventDefault();
+
+      var user = $('[name="user"]').val();
+      var text = $('[name="text"]').val();
+      var selectedChatroom = localStorage.getItem('selectedChatroom');
+      var csrfToken = $('[name="csrf-token"]').attr('content');
+      findChatroomIdByName(selectedChatroom);
+      fetchChatMessages(selectedChatroomId);
+        console.log(user);
+        console.log(text);
+        console.log(selectedChatroom);
+      if (user && text && selectedChatroom) {
+        $.ajax({
+          url: '/chat_histories',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            chat_history: {
+              user: user,
+              text: text,
+              chatroom_id: selectedChatroomId
+            }
+          },
+          headers: {
+                'X-CSRF-Token': csrfToken
+            },
+          success: function(response) {
+            console.log('Message sent successfully:', response);
+          },
+          error: function(error) {
+            console.error('Error sending message:', error);
+          }
+        });
+      } else {
+        console.error('User, text, or selected chatroom not available.');
+      }
+    });
+   
+    
+    });
+  </script>
+
+ 
+
